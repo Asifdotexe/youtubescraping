@@ -41,4 +41,10 @@ try:
 except TimeoutException:
     print('Cookie model missing')
 
+# wait for Youtube to load the page data
+WebDriverWait(driver,15).until(
+    EC.visibility_of_element_located(By.CSS_SELECTOR,
+                            'h1.ytd-watch-metadata')
+)
+
 driver.close()
