@@ -47,4 +47,40 @@ WebDriverWait(driver,15).until(
                             'h1.ytd-watch-metadata')
 )
 
+# intitalize the dictionary to contain the scraped data
+video = {}
+
+# scraping logic
+
+# getting the title 
+title = driver.find_element(
+    By.CSS_SELECTOR,"h1.ytd-watch-metadata").text
+
+# creating dictionary to store channel details
+channel = {}
+
+# extracting channel info attributes
+channel_element = driver.find_element(
+            By.ID,'owner')
+
+channel_url = channel_element.find_element(
+            By.CSS_SELECTOR, 'a.yt-simple-endpoint') \
+            .get_attribute('href')
+
+channel_name = channel_element.find_element(
+            By.ID,'channel-name').text
+
+channel_image = channel_element.find_element(
+            By.ID,'img').get_attribute("src")
+
+channel_subs = channel_element.find_element(
+    By.ID,'owner-sub-count')\
+    .text.replace(' subscribers','')
+
+# storing the information
+channel['url'] = channel_url
+channel['name'] = channel_name
+channel['image'] = channel_image
+channel['subs'] = channel_subs
+
 driver.close()
